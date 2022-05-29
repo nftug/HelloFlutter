@@ -38,10 +38,11 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   void onTapList(int id) {
     Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) =>
-                NextPage(repository: widget.repository, id: id)));
+      context,
+      MaterialPageRoute(
+        builder: (context) => NextPage(repository: widget.repository, id: id),
+      ),
+    );
   }
 
   void onPressAddButton() {
