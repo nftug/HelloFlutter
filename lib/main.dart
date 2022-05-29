@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'password_repository.dart';
 import 'next_page.dart';
 
 void main() {
@@ -11,32 +12,41 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var repository = PasswordRepository();
+
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'パスワードポスト'),
+      home: MyHomePage(title: 'パスワードポスト', repository: repository),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+  const MyHomePage({Key? key, required this.title, required this.repository})
+      : super(key: key);
 
   final String title;
+  final PasswordRepository repository;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-  var titleList = ['Amazon', '楽天', 'Yahoo!'];
+  void onTapList(int id) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                NextPage(repository: widget.repository, id: id)));
+  }
 
-  void _incrementCounter() {
+  void onPressAddButton() {
     setState(() {
-      _counter++;
+      widget.repository.add("Google", "test4", "hogefuga");
     });
   }
 
@@ -47,32 +57,22 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: ListView.builder(
-          itemCount: titleList.length,
+          itemCount: widget.repository.length,
           itemBuilder: (BuildContext context, int i) {
             return Column(
               children: [
                 ListTile(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => NextPage(titleList[i])));
-                  },
-                  leading: Icon(Icons.vpn_key),
-                  title: Text(titleList[i]),
+                  onTap: () => onTapList(i),
+                  leading: const Icon(Icons.vpn_key),
+                  title: Text(widget.repository.getSiteName(i)),
                 ),
-                Divider()
+                const Divider()
               ],
             );
           }),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            titleList.add('Google');
-          });
-          print(titleList);
-        },
-        tooltip: 'Increment',
+        onPressed: onPressAddButton,
+        tooltip: 'サイトを追加',
         child: const Icon(Icons.add),
       ),
     );
