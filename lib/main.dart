@@ -58,19 +58,20 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: ListView.builder(
-          itemCount: widget.repository.length,
-          itemBuilder: (BuildContext context, int i) {
-            return Column(
-              children: [
-                ListTile(
-                  onTap: () => onTapList(i),
-                  leading: const Icon(Icons.vpn_key),
-                  title: Text(widget.repository.getSiteName(i)),
-                ),
-                const Divider()
-              ],
-            );
-          }),
+        itemCount: widget.repository.length,
+        itemBuilder: (BuildContext context, int i) {
+          return Column(
+            children: [
+              ListTile(
+                onTap: () => onTapList(i),
+                leading: const Icon(Icons.vpn_key),
+                title: Text(widget.repository.getSiteName(i)),
+              ),
+              const Divider(),
+            ],
+          );
+        },
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: onPressAddButton,
         tooltip: 'サイトを追加',
